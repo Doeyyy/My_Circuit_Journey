@@ -1,0 +1,51 @@
+{% extends 'bloga/base.html' %}
+{% block title %}Sign Up - DjangoBlog{% endblock %}
+
+{% block content %}
+<div class="flex justify-center items-center min-h-[80vh]">
+  <div class="w-full max-w-md bg-[#112240] rounded-xl shadow-lg overflow-hidden">
+    <div class="bg-[#0A192F] text-[#E6F1FF] px-6 py-4 border-b border-[#64FFDA]/30">
+      <h4 class="text-xl font-bold">Create an Account</h4>
+    </div>
+    <div class="p-6">
+      <form method="POST" enctype="multipart/form-data" class="space-y-4">
+        {% csrf_token %}
+
+        {% for field in form %}
+        <div>
+          <label for="{{ field.id_for_label }}" class="block mb-1 text-[#E6F1FF] font-semibold">
+            {{ field.label }}
+            {% if field.field.required %}<span class="text-red-400">*</span>{% endif %}
+          </label>
+
+          {{ field}}
+
+          {% if field.help_text %}
+          <small class="text-[#8892B0]">{{ field.help_text }}</small>
+          {% endif %}
+
+          {% if field.errors %}
+          <div class="mt-1 text-red-400 text-sm">
+            {% for error in field.errors %}
+            {{ error }}
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+        {% endfor %}
+
+        <button type="submit" 
+                class="w-full bg-[#64FFDA] text-[#0A192F] font-semibold px-4 py-2 rounded-md hover:opacity-80">
+          Sign Up
+        </button>
+      </form>
+
+      <div class="mt-4 text-center text-[#8892B0]">
+        <p>Already have an account? 
+          <a href="{% url 'signin' %}" class="text-[#64FFDA] hover:underline">Sign In</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

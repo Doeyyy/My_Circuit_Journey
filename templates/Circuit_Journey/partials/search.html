@@ -1,0 +1,38 @@
+{% if request.GET.search %}
+<div class="divide-y divide-gray-200">
+  <div class="px-4 py-2 flex justify-between">
+    <h6 class="font-semibold text-gray-800">Results for "{{ request.GET.search }}"</h6>
+    <small class="text-gray-500">{{ blogs|length }} result{{ blogs|length|pluralize }}</small>
+  </div>
+
+  {% for blog in blogs %}
+  <a href="{% url 'details' blog.slug %}" 
+     class="flex items-start gap-3 px-4 py-3 hover:bg-gray-50 transition">
+    
+    {% if blog.thumbnail %}
+      <img src="{{ blog.thumbnail.url }}" 
+           class="w-14 h-14 rounded object-cover flex-shrink-0" 
+           alt="{{ blog.title }}">
+    {% else %}
+      <div class="w-14 h-14 bg-gray-200 flex items-center justify-center rounded text-gray-400">
+        <i class="fas fa-image"></i>
+      </div>
+    {% endif %}
+    
+    <div class="flex flex-col flex-grow">
+      <span class="font-medium text-gray-900">{{ blog.title }}</span>
+      <p class="text-gray-600 text-sm truncate">{{ blog.body|truncatechars:80 }}</p>
+      <div class="flex justify-between text-xs mt-1">
+        <span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-semibold">{{ blog.category.title }}</span>
+        <span class="text-gray-500">{{ blog.created_at|date:"M j, Y" }}</span>
+      </div>
+    </div>
+  </a>
+  {% empty %}
+  <div class="px-4 py-6 text-center text-gray-500">
+    <i class="fas fa-search text-lg mb-1"></i>
+    No articles found
+  </div>
+  {% endfor %}
+</div>
+{% endif %}

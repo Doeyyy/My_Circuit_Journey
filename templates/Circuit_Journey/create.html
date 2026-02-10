@@ -1,0 +1,29 @@
+{% extends "Circuit_Journey/base.html" %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto py-12 px-6">
+  <!-- Page Title -->
+  <h2 class="text-4xl font-bold text-center text-gray-900 mb-10">
+    ✍️ Create a New Blog Post
+  </h2>
+
+  <!-- Blog Form -->
+  <div class="bg-white shadow-xl rounded-2xl p-10">
+    <form method="POST" enctype="multipart/form-data" class="space-y-8">
+      {% csrf_token %}
+      {{ form.media }}
+      {{form.as_p }}
+      <!-- Submit -->
+      <div class="flex justify-end">
+        <button type="submit"
+          class="bg-gray-200 text-gray-700 px-8 py-3 rounded-xl font-semibold shadow-md hover:bg-indigo-600 hover:text-white transition">
+          Publish Blog
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+{% endblock %}
+

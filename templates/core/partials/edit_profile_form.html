@@ -1,0 +1,30 @@
+<div class="bg-[#112240] rounded-xl shadow-lg p-6">
+  <h2 class="text-[#64FFDA] text-xl font-bold mb-4">Edit Profile</h2>
+  <form method="POST" enctype="multipart/form-data"
+        hx-post="{% url 'update-profile' %}"
+        hx-target="#profile-info"
+        hx-swap="outerHTML">
+    {% csrf_token %}
+    {% for field in form %}
+      <div class="mb-4">
+        {{ field.label_tag }}
+        {{ field }}
+        {% if field.errors %}
+          <p class="text-red-400 text-sm">{{ field.errors|join:", " }}</p>
+        {% endif %}
+      </div>
+    {% endfor %}
+    <div class="flex gap-3">
+      <button type="submit" class="bg-[#64FFDA] text-[#0A192F] px-4 py-2 rounded hover:opacity-80">
+        Save Changes
+      </button>
+      <button type="button"
+              hx-get="{% url 'profile' %}"
+              hx-target="#profile-info"
+              hx-swap="outerHTML"
+              class="border border-[#64FFDA] text-[#64FFDA] px-4 py-2 rounded hover:bg-[#64FFDA] hover:text-[#0A192F]">
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>

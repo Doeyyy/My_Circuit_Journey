@@ -1,0 +1,131 @@
+{% extends "Circuit_Journey/base.html" %}
+{% block title %}Home | Circuit Journal{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 py-10">
+
+  {# ================= All Categories ================= #}
+{% if categories %}
+<section class="mb-12 text-center">
+  <div class="flex flex-wrap justify-center gap-3">
+    {% for category in categories %}
+      <a href="{% url 'categories' category.slug %}"
+         class="px-4 py-2 rounded-full text-sm font-medium transition
+                {% if selected_category and selected_category.slug == category.slug %}
+                  bg-green-600 text-white
+                {% else %}
+                  bg-gray-200 text-gray-700 hover:bg-gray-300
+                {% endif %}">
+        {{ category.title }}
+      </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+  {# ================= Featured ================= #}
+  {% if f_blog %}
+  <section class="mb-16">
+    <div class="text-center space-y-3">
+      {% if f_blog.category %}
+        <a href="{% url 'categories' f_blog.category.slug %}"
+           class="inline-block px-3 py-1 rounded-full text-xs font-semibold tracking-wide bg-gray-200 text-indigo-600">
+          {{ f_blog.category }}
+        </a>
+      {% endif %}
+
+      <h1 class="text-3xl md:text-4xl font-bold tracking-tight">
+        <a href="{% url 'details' f_blog.slug %}" class="hover:text-indigo-600 transition">
+          {{ f_blog.title }}
+        </a>
+      </h1>
+
+      <p class="text-sm text-gray-500">
+        {{ f_blog.created_at|date:"F j, Y · g:i A" }} | {{ f_blog.user }}
+      </p>
+
+      {# Thumbnail last in hierarchy #}
+        <div class="aspect-[16/9] overflow-hidden rounded-2xl shadow-lg">
+        {% if f_blog.thumbnail %}
+        <img src="{{ f_blog.thumbnail.url }}" alt="{{ f_blog.title }}"
+         class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+        {% endif %}
+      </div>
+      
+
+    </div>
+  </section>
+  {% endif %}
+
+  {# ================= All Posts ================= #}
+  <section class="grid gap-16">
+    {% for blog in blogs %}
+      {% if f_blog and blog.pk == f_blog.pk %}
+        {# skip if it's the featured one #}
+      {% else %}
+      <article class="text-center space-y-3">
+        {% if blog.category %}
+          <a href="{% url 'categories' blog.category.slug %}"
+             class="inline-block px-3 py-1 rounded-full text-xs font-semibold tracking-wide bg-gray-200 text-gray-700 hover:bg-gray-300 transition">
+            {{ blog.category }}
+          </a>
+        {% endif %}
+
+        <h2 class="text-2xl md:text-3xl font-bold tracking-tight">
+          <a href="{% url 'details' blog.slug %}" class="hover:text-indigo-600 transition">
+            {{ blog.title }}
+          </a>
+        </h2>
+
+        <p class="text-sm text-gray-500">
+          {{ blog.created_at|date:"F j, Y · g:i A" }}
+        </p>
+
+        <div class="aspect-[16/9] overflow-hidden rounded-2xl shadow-md">
+        {% if blog.video %}
+          <video class="w-full aspect-[16/9] object-cover rounded-lg shadow-md" controls>
+            <source src="{{ blog.video.url }}" type="video/mp4">
+          </video>
+        {% elif blog.thumbnail %}
+          <img src="{{ blog.thumbnail.url }}" alt="{{ blog.title }}"  class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+        {% endif %}
+
+
+      </article>
+      {% endif %}
+    {% empty %}
+      <p class="text-center text-gray-500">No posts available yet.</p>
+    {% endfor %}
+  </section>
+
+  {# ================= Recent Posts ================= #}
+  {% if recent_posts %}
+  <section class="mt-16">
+    <h3 class="text-center text-lg font-semibold mb-6">Recent Posts</h3>
+    <div class="grid sm:grid-cols-2 gap-8">
+      {% for r in recent_posts %}
+      <a href="{% url 'details' r.slug %}" class="block">
+        <div class="text-center space-y-2">
+          {% if r.category %}
+            <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold tracking-wide bg-gray-200 text-gray-700">
+              {{ r.category }}
+            </span>
+          {% endif %}
+          <h4 class="font-semibold hover:text-indigo-600 transition">{{ r.title }}</h4>
+          <p class="text-xs text-gray-500">{{ r.created_at|date:"M d, Y · g:i A" }}</p>
+        </div>
+        {% if r.thumbnail %}
+        <div class="aspect-[20/13] overflow-hidden rounded-xl shadow mt-3">
+          <img src="{{ r.thumbnail.url }}" alt="{{ r.title }}" class="w-full h-full object-cover">
+        </div>
+        {% endif %}
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+</div>
+
+
+
+{% endblock %}

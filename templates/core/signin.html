@@ -1,0 +1,56 @@
+{% extends 'bloga/base.html' %}
+{% block title %}Sign In - DjangoBlog{% endblock %}
+
+{% block content %}
+<div class="flex justify-center items-center min-h-[80vh]">
+  <div class="w-full max-w-md bg-[#112240] rounded-xl shadow-lg overflow-hidden">
+    <div class="bg-[#0A192F] text-[#E6F1FF] px-6 py-4 border-b border-[#64FFDA]/30">
+      <h4 class="text-xl font-bold">Sign In</h4>
+    </div>
+    <div class="p-6">
+
+      {% if messages %}
+      {% for message in messages %}
+      <div class="mb-3 px-4 py-2 rounded-md 
+                  {% if message.tags == 'error' %}bg-red-500/20 text-red-400 
+                  {% elif message.tags == 'success' %}bg-green-500/20 text-green-400 
+                  {% else %}bg-[#0A192F] text-[#E6F1FF]{% endif %}">
+        {{ message }}
+      </div>
+      {% endfor %}
+      {% endif %}
+
+      <form method="POST" class="space-y-4">
+        {% csrf_token %}
+
+        <div>
+          <input type="text" 
+                 name="username_or_email" 
+                 placeholder="Email or Username" 
+                 required
+                 class="w-full px-4 py-2 rounded-md bg-[#0A192F] border border-[#112240] text-[#E6F1FF] focus:border-[#64FFDA] focus:ring focus:ring-[#64FFDA]/40">
+        </div>
+
+        <div>
+          <input type="password" 
+                 name="password" 
+                 placeholder="Password" 
+                 required
+                 class="w-full px-4 py-2 rounded-md bg-[#0A192F] border border-[#112240] text-[#E6F1FF] focus:border-[#64FFDA] focus:ring focus:ring-[#64FFDA]/40">
+        </div>
+
+        <button type="submit" 
+                class="w-full bg-[#64FFDA] text-[#0A192F] font-semibold px-4 py-2 rounded-md hover:opacity-80">
+          Sign In
+        </button>
+      </form>
+
+      <div class="text-center mt-4 text-[#8892B0]">
+        <p>Don't have an account? 
+          <a href="{% url 'signup' %}" class="text-[#64FFDA] hover:underline">Sign Up</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

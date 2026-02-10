@@ -1,0 +1,18 @@
+<div class="bg-[#112240] rounded-xl shadow-lg p-6 text-center">
+  <img src="{{ user.profile_pic.url }}" alt="{{ user.username }}" class="w-28 h-28 rounded-full mx-auto mb-4 border-4 border-[#64FFDA]">
+  <h2 class="text-2xl font-bold text-[#E6F1FF]">{{ user.get_full_name|default:user.username }}</h2>
+  <p class="text-[#64FFDA] mb-2">{{ user.role }}</p>
+  <p class="text-[#8892B0]">{{ user.bio|default:"No bio available" }}</p>
+
+  <div class="mt-6 flex justify-center gap-3">
+    <a hx-get="{% url 'update-profile' %}"
+       hx-target="#profile-info"
+       hx-swap="outerHTML"
+       class="border border-[#64FFDA] text-[#64FFDA] px-4 py-2 rounded-md hover:bg-[#64FFDA] hover:text-[#0A192F] text-sm">
+      Edit Profile
+    </a>
+    <a href="{% url 'create-article' %}" class="bg-[#64FFDA] text-[#0A192F] px-4 py-2 rounded-md font-semibold text-sm hover:opacity-80">
+      New Article
+    </a>
+  </div>
+</div>

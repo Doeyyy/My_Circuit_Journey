@@ -1,0 +1,55 @@
+{% extends "Circuit_Journey/base.html" %}
+{% load static %}
+
+{% block hero %}
+<section class="bg-gradient-to-r from-green-600 to-emerald-500 text-white py-16">
+  <div class="max-w-4xl mx-auto text-center">
+    <h1 class="text-5xl font-extrabold mb-4">About Me</h1>
+    <p class="text-lg opacity-90">A glimpse into who I am behind the circuits ⚡</p>
+  </div>
+</section>
+{% endblock hero %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto py-16 px-6">
+  
+  <!-- Profile -->
+  <div class="flex flex-col items-center text-center mb-12">
+    {% if user.profile_pic %}
+      <img src="{{ user.profile_pic.url }}" alt="{{ user.username }}"
+           class="w-40 h-40 rounded-full shadow-lg object-cover mb-6 border-4 border-green-500">
+    {% else %}
+      <div class="w-40 h-40 flex items-center justify-center bg-gray-200 rounded-full text-4xl text-gray-600 mb-6 shadow-lg">
+        <i class="fas fa-user"></i>
+      </div>
+    {% endif %}
+
+    <h2 class="text-3xl font-bold text-gray-900">{{ user.username }}</h2>
+    {% if user.role %}
+      <p class="text-green-600 font-medium mt-2">{{ user.role }}</p>
+    {% endif %}
+  </div>
+
+  <!-- Bio -->
+  <div class="prose max-w-none text-gray-700 leading-relaxed">
+    {% if user.bio %}
+      {{ user.bio }}
+    {% else %}
+      <p>Hey there 👋, I’m passionate about circuits, embedded systems, and building amazing tech solutions. 
+      On this blog, I share my journey, projects, and lessons learned along the way. 
+      Stay tuned for stories that blend engineering with creativity ⚡.</p>
+    {% endif %}
+  </div>
+
+  <!-- Optional: Address / Phone -->
+  <div class="mt-10 text-center text-gray-500 space-y-1">
+    {% if user.address %}
+      <p><i class="fas fa-map-marker-alt text-green-600 mr-2"></i>{{ user.address }}</p>
+    {% endif %}
+    {% if user.phone %}
+      <p><i class="fas fa-phone text-green-600 mr-2"></i>{{ user.phone }}</p>
+    {% endif %}
+  </div>
+
+</div>
+{% endblock %}

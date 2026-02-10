@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Circuit Journey Blog</title>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts (Inter for clean look) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.6"></script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+  <!-- Navbar -->
+  <nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 flex justify-between items-center h-16">
+      <a href="/" class="text-2xl font-bold text-green-600">⚡ Circuit Journey</a>
+      <div class="hidden md:flex space-x-6">
+        <a href="/" class="hover:text-green-600">Home</a>
+        <a href="{% url 'about' %}" class="hover:text-green-600">About</a>
+        <a href="#" class="hover:text-green-600">Contact</a>
+      </div>
+    
+          <!-- Search -->
+      <div class="relative ml-4">
+      <form class="flex">
+        <input 
+          type="search" 
+          name="search" 
+          placeholder="Search articles..." 
+          class="flex-grow px-3 py-2 rounded-l-lg border border-gray-300 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500"
+          hx-get="{% url 'search' %}"
+          hx-trigger="keyup changed delay:300ms"
+          hx-target="#search-results"
+          hx-indicator="#search-spinner"
+          autocomplete="off"
+        >
+        <button 
+          type="button" 
+          class="bg-green-600 text-white px-4 py-2 rounded-r-lg hover:bg-green-700 transition"
+        >
+          <i class="fas fa-search"></i>
+        </button>
+      </form>
+
+      <!-- Spinner -->
+      <div id="search-spinner" class="htmx-indicator absolute right-3 top-2 text-green-600 text-sm">
+        <i class="fas fa-spinner fa-spin"></i>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div id="search-results" class="absolute right-0 mt-2 w-96 bg-white border border-gray-200 rounded-lg shadow-lg z-50 hidden"></div>
+    </div>
+    </nav>
+
+  
+
+  <!-- Hero Section -->
+   {% block hero %}
+  <section class="bg-gradient-to-r from-green-600 to-emerald-500 text-white py-16">
+    <div class="max-w-4xl mx-auto text-center">
+      <h1 class="text-4xl md:text-5xl font-extrabold mb-4">Explore My PCB Design Journey</h1>
+      <p class="text-lg opacity-90">Documenting circuits, boards, and everything in between.</p>
+    </div>
+  </section>{% endblock hero %}
+
+  <!-- Blog Section -->
+ {% block content %}{% endblock %}
+
+  <!-- Footer -->
+  <footer class="bg-gray-100 py-6 mt-16">
+    <div class="max-w-5xl mx-auto px-4 text-center text-gray-500 text-sm">
+      © {{ year }} Circuit Journey — All Rights Reserved ⚡
+    </div>
+  </footer>
+
+</body>
+</html>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const searchInput = document.querySelector('input[name="search"]');
+  const searchResults = document.getElementById('search-results');
+  const blogList = document.getElementById('blog-list');
+  searchInput.addEventListener('input', function() {
+    if (this.value.trim() === '') {
+      searchResults.innerHTML = '';
+      blogList.style.display = 'block';
+    } else {
+      blogList.style.display = 'none';
+    }
+  });
+});
+</script>
