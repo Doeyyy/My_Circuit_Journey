@@ -25,9 +25,9 @@ load_dotenv(BASE_DIR / ".env")
 SECRET_KEY = 'django-insecure-w-r0!)7)z@rgbgeamh%cflbs(sz-pd_tuuz#aqgfa&0!r)ne85'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['my-circuit-journey.onrender.com']
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -45,7 +45,9 @@ INSTALLED_APPS = [
     'core',
     'django_ckeditor_5',
     'ckeditor_uploader',
+    'storages'
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -87,7 +89,15 @@ DATABASES = {
     }
 }
 
-
+# settings.py
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+    },
+    "staticfiles": {
+        "BACKEND": "storages.backends.s3boto3.S3StaticStorage",
+    },
+}
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
@@ -133,8 +143,6 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
-INSTALLED_APPS += ["storages"]
-
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
 AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
@@ -144,7 +152,7 @@ AWS_QUERYSTRING_AUTH = False
 AWS_DEFAULT_ACL = None
 AWS_S3_FILE_OVERWRITE = False
 
-DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+# DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 # IMPORTANT: Your DB paths already include "media/..."
 # So MEDIA_URL must be bucket root, not "/media/"
@@ -258,4 +266,3 @@ CKEDITOR_5_UPLOAD_PATH = "ckeditor_uploads/"
 CKEDITOR_5_MAX_FILE_SIZE = 5  # in MB
 CKEDITOR_5_ALLOW_ALL_FILE_TYPES = False
 CKEDITOR_5_FILE_UPLOAD_PERMISSION = "staff"
-

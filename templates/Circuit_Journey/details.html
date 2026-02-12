@@ -105,6 +105,7 @@
     
     {% if blogs.thumbnail %}
       <div class="flex-shrink-0 w-full snap-center">
+        <p>DEBUG S3 LINK: {{ blogs.thumbnail.url }}</p>
         <img src="{{ blogs.thumbnail.url }}" alt="{{ blogs.title }}" 
              class="w-full aspect-[20/13] object-cover rounded-lg shadow-md">
       </div>
