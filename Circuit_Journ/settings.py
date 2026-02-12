@@ -25,9 +25,9 @@ load_dotenv(BASE_DIR / ".env")
 SECRET_KEY = 'django-insecure-w-r0!)7)z@rgbgeamh%cflbs(sz-pd_tuuz#aqgfa&0!r)ne85'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['my-circuit-journey.onrender.com']
 
 
 # Application definition
