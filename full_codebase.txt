@@ -116,7 +116,7 @@ load_dotenv(BASE_DIR / ".env")
 SECRET_KEY = 'django-insecure-w-r0!)7)z@rgbgeamh%cflbs(sz-pd_tuuz#aqgfa&0!r)ne85'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -184,6 +184,7 @@ DATABASES = {
 STORAGES = {
     "default": {
         "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        "querystring_auth": False,
     },
     "staticfiles": {
         "BACKEND": "storages.backends.s3boto3.S3StaticStorage",
@@ -244,6 +245,7 @@ AWS_DEFAULT_ACL = None
 AWS_S3_FILE_OVERWRITE = False
 
 # DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+# settings.py
 
 # IMPORTANT: Your DB paths already include "media/..."
 # So MEDIA_URL must be bucket root, not "/media/"
@@ -390,7 +392,6 @@ urlpatterns = [
     path('user/', include('core.urls')),
     path("ckeditor5/", include('django_ckeditor_5.urls')),
 ]
-# + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 
@@ -600,7 +601,7 @@ urlpatterns= [
     path("about/", views.about, name="about"),
       # ... your existing URLs ...
    
-]+static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+]
 
 
 ==================================================
